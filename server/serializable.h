@@ -2,16 +2,28 @@
 #define SERIALIZABLE_H
 
 #include <string>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+
 using namespace std;
 
 class serializable
 {
 private:
+    friend class boost::serialization::access;
+    string test1 = "hello";
+    string test2 = "world";
     /* data */
 public:
     ~serializable();
-    virtual void serialize(string fileName) ;
-    virtual void deserialize(string fileName) = 0;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version)
+    {
+        ar & test1;
+        ar & test2;
+        
+    }
+    
 };
 
 

@@ -4,6 +4,4 @@ serializable::~serializable()
 {
 }
 
-void serializable::serialize(string fileName){
-    
-}
+
