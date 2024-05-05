@@ -5,14 +5,16 @@
 #include <ctime>
 #include <vector>
 #include "./database/database.h"
+#include <cereal/access.hpp>
+
 using namespace std;
 
-class database;
+
 
 class user
 {
 private:
-    friend database;
+    friend class database;
 
     string userName;
     string password;
@@ -21,8 +23,16 @@ private:
     string nationality;
     string martialStatus;
     string phoneNo;
-    time_t DOB;
+    string DOB;
     vector<string> accounts;
+
+    friend class cereal::access;
+    
+    template <class Archive>
+    void serialize(Archive& Data) {
+        Data(userName, password, fullName, nationalID, nationality, martialStatus, phoneNo, DOB,accounts);
+    }
+
 public:
     user(){};
     user(string userName, string password);

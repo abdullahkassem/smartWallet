@@ -20,6 +20,8 @@
 using namespace std;
 
 class user;
+class account;
+class transactions;
 
 class database // singleton class
 {
@@ -37,7 +39,9 @@ public:
     void store(account* obj);
     void store(transactions* obj);
     
-    user* loadUser(string userID);
+    user loadUser(string userID);
+    account loadAccount(string accName);
+    transactions loadTransaction(string transName);
 
 };
 

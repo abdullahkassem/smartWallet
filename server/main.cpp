@@ -12,8 +12,8 @@ int main(){
 
     user u1 = user("abdullah","pass");
     db->store(&u1);
-    user* test = db->loadUser("abdullah");
-    cout << "read this user name"<<test->get_userName()<<endl;
+    user test = db->loadUser("abdullah");
+    cout << "read this user name"<<test.get_userName()<<endl;
 
     return 0;
 }
