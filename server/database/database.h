@@ -1,7 +1,13 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
+#include <cereal/archives/binary.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/archives/json.hpp>
+
 #include <filesystem>
+#include <fstream>
 #include <string>
 #include <iostream>
 #include "../user.h"
@@ -13,13 +19,14 @@
 
 using namespace std;
 
+class user;
 
 class database // singleton class
 {
 private:
     string dirPath;
     static database* instancePtr; 
-    database(){dirPath = "./database/";  };
+    database(){dirPath = "./database/";};
     
 public:
     database(const database& obj) = delete; // deleting copy constructor
@@ -30,30 +37,9 @@ public:
     void store(account* obj);
     void store(transactions* obj);
     
-    user* load(string userID);
+    user* loadUser(string userID);
 
 };
-
-
-database* database::instancePtr = nullptr;
-
-
-database* database::getInstance(){
-    if (instancePtr == NULL) 
-    {
-        instancePtr = new database(); 
-        return instancePtr; 
-    }
-    else
-    {
-        return instancePtr;
-    }
-}
-
-void database::viewPath()
-{
-    cout << "database path is "<<dirPath << endl;
-}
 
 
 

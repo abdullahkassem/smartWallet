@@ -3,6 +3,7 @@
 
 #include <string>
 #include <ctime>
+#include <iostream>
 using namespace std;
 
 class transactions
@@ -17,17 +18,9 @@ private:
     string details;
     
 public:
-    transactions(/* args */);
+    transactions();
     ~transactions();
 };
-
-transactions::transactions(/* args */)
-{
-}
-
-transactions::~transactions()
-{
-}
 
 
 #endif

@@ -15,7 +15,7 @@ all: $(EXEC)
 
 $(EXEC): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(EXEC)
-	touch $(SRCS)
+
 
 # Target: Compile source files to object files
 .cpp.o:
@@ -23,6 +23,11 @@ $(EXEC): $(OBJS)
 
 run: $(EXEC)
 	./$(EXEC)
+
+runTouch: $(EXEC)
+	./$(EXEC)
+	touch $(SRCS)
+	
 
 touch:
 	touch $(SRCS)
