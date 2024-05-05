@@ -37,8 +37,9 @@ private:
 
     transactions();
     transactions( string TransactionID, string TransType, string timeStamp,double ammount,string src_acc,string dest_acc,string details);
-
+    transactions(string TransactionID, string TransType, double ammount, string src_acc, string dest_acc, string details);
 public:
+
 
     ~transactions();
 };

@@ -17,6 +17,8 @@ private:
     account *getAccount(string accName);
     transactions *getTransaction(string transName);
 
+    bool makeSingleTrans(string SrcAccountID, string DestAccountID, double amount, string transType, string details);
+
 public:
     server();
     ~server();
@@ -24,11 +26,11 @@ public:
     void createUser(string usrName, string Password);
     bool login(string usrName, string Password);
     bool createAccount(string usrName, string accName,string accountType, double startingBal);
-    bool createTrans(string SrcAccountID, string DestAccountID,double amount, string transType,string details="");
+    bool transferMoney(string SrcAccountID, string DestAccountID,double amount, string transType,string details);
+    vector<string> getUserAccounts(string usrName);
+    
+    bool Deposit(string SrcAccountID, double amount, string details);
+    bool Withdraw(string SrcAccountID, double amount, string details);
 };
-
-
-
-
 
 #endif

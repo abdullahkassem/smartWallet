@@ -126,25 +126,101 @@ bool server::createAccount(string usrName, string accName,string accountType, do
     }
     
     temp->accounts.push_back(newAccID);
-    db->store(temp);
+    db->store(temp);    //store updated user
 
     //create account obj 
-    account* newAcc = new account(newAccID,accName,temp->get_userName(),accountType,startingBal);
+    account* newAcc = new account(newAccID,accName,temp->get_userName(),accountType,0);
 
     //store in database
     db->store(newAcc);
 
+
+    //if there is a starting balance it needs to be added as a transaction.
+    if(startingBal>0){
+        Deposit(newAccID,startingBal,"initial balance");
+    }else if(startingBal<0){
+        Deposit(newAccID,-startingBal,"initial balance");
+    }
+
     return true;
 }
 
-/// @brief creates a transaction between 2 accounts and stores them in accounts if possible.
+/// @brief transfers money between 2 accounts and records transactions into the 2 accounts if possible.
 /// @param SrcAccountID must exist, thus
 /// @param DestAccountID could exist in database or not
 /// @param amount 
 /// @param transType 
 /// @param details 
 /// @return 
-bool server::createTrans(string SrcAccountID, string DestAccountID, double amount, string transType, string details)
+bool server::transferMoney(string SrcAccountID, string DestAccountID, double amount, string transType, string details="")
 {
-    return false;
+    
+    // check if dest acc exists
+    bool destFound = true;
+    account* destAcc;
+    try{
+        destAcc = getAccount(DestAccountID);
+    }catch(int x){
+        destFound = false;
+    }
+
+    if(destFound){
+        //make 2 transactions
+        return (makeSingleTrans(SrcAccountID,DestAccountID,-amount,transType,details) &&
+        makeSingleTrans(DestAccountID,SrcAccountID,amount,transType,"Sender Note: "+details) );
+    }else{
+        return makeSingleTrans(SrcAccountID,DestAccountID,amount,transType,details);
+    }
+
+
+    return true;
+}
+
+vector<string> server::getUserAccounts(string usrName)
+{
+    user*temp = getUser(usrName);
+    return temp->accounts;
+}
+
+/// @brief helper function to create transacction and update srcAccount only
+/// @param SrcAccountID 
+/// @param DestAccountID 
+/// @param amount amount will be added to balance
+/// @param transType 
+/// @param details 
+/// @return 
+bool server::makeSingleTrans(string SrcAccountID, string DestAccountID, double amount, string transType, string details=""){
+    account* srcAcc;
+    try{
+        srcAcc = getAccount(SrcAccountID);
+    }catch(int x){
+        cerr << "Src Account does not exist\n";
+        return false;
+    }
+
+    //create transaction obj and store it:
+
+    string transID_1 = generateUniqueID();    
+    transactions* trans1 = new transactions(transID_1,transType,amount,SrcAccountID,DestAccountID,details);
+    db->store(trans1);
+
+    //load account from db and then update account balance & add transaction to list in account:
+    
+    srcAcc->listOfTrans.push_back(transID_1);
+    srcAcc->balance += amount;
+    db->store(srcAcc);
+    return true;
+}
+
+
+bool server::Deposit(string SrcAccountID, double amount, string details=""){
+    if (amount <= 0)
+        return false;
+    return makeSingleTrans(SrcAccountID,"",amount,"deposit",details);
+}
+
+bool server::Withdraw(string SrcAccountID, double amount, string details=""){
+    if (amount <= 0)
+        return false;
+    return makeSingleTrans(SrcAccountID,"",-amount,"withdraw",details);
 }
