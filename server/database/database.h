@@ -13,6 +13,7 @@
 #include "../user.h"
 #include "../account.h"
 #include "../transactions.h"
+// #include "../server.h"
 
 // #include <boost/filesystem.hpp>
 
@@ -26,14 +27,11 @@ class transactions;
 class database // singleton class
 {
 private:
+    friend class server;
+
     string dirPath;
     static database* instancePtr; 
     database(){dirPath = "./database/";};
-    
-public:
-    database(const database& obj) = delete; // deleting copy constructor
-    static database* getInstance();
-    void viewPath();
 
     void store(user* obj);
     void store(account* obj);
@@ -42,6 +40,14 @@ public:
     user loadUser(string userID);
     account loadAccount(string accName);
     transactions loadTransaction(string transName);
+    
+public:
+    database(const database& obj) = delete; // deleting copy constructor
+    static database* getInstance();
+
+    void viewPath();
+
+    
 
 };
 

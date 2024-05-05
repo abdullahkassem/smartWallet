@@ -4,7 +4,7 @@
 
 database* database::instancePtr = nullptr;
 
-
+// get singleton class instance
 database* database::getInstance(){
     if (instancePtr == NULL) 
     {
@@ -17,17 +17,19 @@ database* database::getInstance(){
     }
 }
 
+
 void database::viewPath()
 {
     cout << "database path is "<<dirPath << endl;
 }
 
+// these overloaded functions will store the appropriate object in corresponding path
+// and appropriate name.
+
 void database::store(user *obj)
 {
     string curDir = dirPath + "users/";
     string filePath = curDir + obj->userName+".json";
-
-    // cout << "file will be stored at "<< filePath << endl;
 
     ofstream oFile(filePath);
     cereal::JSONOutputArchive OArchive(oFile);
@@ -42,8 +44,6 @@ void database::store(transactions *obj)
     string curDir = dirPath + "transactions/";
     string filePath = curDir + obj->TransactionID +".json";
 
-    // cout << "file will be stored at "<< filePath << endl;
-
     ofstream oFile(filePath);
     cereal::JSONOutputArchive OArchive(oFile);
 
@@ -57,8 +57,6 @@ void database::store(account *obj)
     string curDir = dirPath + "accounts/";
     string filePath = curDir + obj->AccountID +".json";
 
-    // cout << "file will be stored at "<< filePath << endl;
-
     ofstream oFile(filePath);
     cereal::JSONOutputArchive OArchive(oFile);
 
@@ -67,18 +65,17 @@ void database::store(account *obj)
 
 }
 
+// function that returns user obj read from file
+
 user database::loadUser(string usrName)
 {
     string curDir = dirPath + "users/";
     string filePath = curDir + usrName+".json";
 
-    // cout << "file will be loaded from "<< filePath << endl;
-
     ifstream iFile(filePath);
 
     if (iFile.fail()) {
-    std::cerr << "Error opening file!" << std::endl;
-    // throw;
+    throw -1;
     }
 
     cereal::JSONInputArchive IArchive(iFile);
@@ -96,13 +93,10 @@ account database::loadAccount(string accName)
     string curDir = dirPath + "accounts/";
     string filePath = curDir + accName+".json";
 
-    // cout << "file will be loaded from "<< filePath << endl;
-
     ifstream iFile(filePath);
 
     if (iFile.fail()) {
-    std::cerr << "Error opening file!" << std::endl;
-    // throw;
+        throw -1;
     }
 
     cereal::JSONInputArchive IArchive(iFile);
@@ -120,13 +114,10 @@ transactions database::loadTransaction(string transName)
     string curDir = dirPath + "accounts/";
     string filePath = curDir + transName+".json";
 
-    // cout << "file will be loaded from "<< filePath << endl;
-
     ifstream iFile(filePath);
 
     if (iFile.fail()) {
-    std::cerr << "Error opening file!" << std::endl;
-    // throw;
+        throw -1;
     }
 
     cereal::JSONInputArchive IArchive(iFile);

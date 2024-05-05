@@ -11,21 +11,32 @@ class account
 {
 private:
     friend class database;
+    friend class server;    
+
     string AccountID;
-    double balance;
+    string ownerID;
+    string accountName;
+    double balance=0;
     string accType;
+    vector<string> listOfTrans;
+
     friend class cereal::access;
     
     template <class Archive>
     void serialize(Archive& Data) {
         Data( AccountID,
+                accountName,
+                ownerID,
                 balance,
-                accType );
+                accType,
+                listOfTrans );
     }
 
+    account(/* args */);
+    account(string AccountID,string accountName,string ownerID,string accType, double balance);
 
 public:
-    account(/* args */);
+    
     ~account();
 };
 

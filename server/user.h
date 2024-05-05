@@ -15,6 +15,7 @@ class user
 {
 private:
     friend class database;
+    friend class server;
 
     string userName;
     string password;
@@ -33,12 +34,14 @@ private:
         Data(userName, password, fullName, nationalID, nationality, martialStatus, phoneNo, DOB,accounts);
     }
 
-public:
     user(){};
     user(string userName, string password);
     void addInfo(string fullName, string nationalID, string nationality, string martialStatus,string phoneNo,time_t DOB);
     string get_userName();
     ~user();
+
+public:
+    
 };
 
 

@@ -12,12 +12,13 @@ using namespace std;
 class transactions
 {
 private:
-    friend class database;    
+    friend class database;
+    friend class server;
     friend class cereal::access;
-    
+
     string TransactionID;
     string TransType;
-    time_t timeStamp;
+    string timeStamp;
     double ammount;
     string src_acc;
     string dest_acc;
@@ -33,9 +34,12 @@ private:
                 ,dest_acc
                 ,details );
     }
-    
-public:
+
     transactions();
+    transactions( string TransactionID, string TransType, string timeStamp,double ammount,string src_acc,string dest_acc,string details);
+
+public:
+
     ~transactions();
 };
 
