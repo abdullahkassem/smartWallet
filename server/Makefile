@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS =  -I/home/abdullah/repos/smartWallet/include # Adjust -std as needed
+CXXFLAGS =  -I/home/abdullah/repos/smartWallet/include  -lpthread
 
 # Source code files
 SRCS = $(wildcard *.cpp) $(wildcard database/*.cpp) 
