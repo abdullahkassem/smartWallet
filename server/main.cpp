@@ -23,12 +23,11 @@ int main(){
     // myserv.Deposit(firstAcc,100.0,"salary");
     // myserv.Withdraw(firstAcc,50.0,"food");
 
-    tcpServer serv(8080);
-    serv.readCin();
-    cout << "after read\n";
+    tcpServer serv(8083);
     serv.acceptLoop();
 
-    cout << "server finished\n";
+    serv.~tcpServer();
+
 
     return 0;
 }

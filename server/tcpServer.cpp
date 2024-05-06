@@ -41,30 +41,31 @@ tcpServer::tcpServer(int port):portNum(port)
 }
 
 /// @brief A blocking loop that keeps accesspting new connections and create a thread for each new connection
-void tcpServer::acceptLoop(const function<void(int)> threadHandler){
-    while(true){
+// void tcpServer::acceptLoop(const function<void(int)> threadHandler){
+//     while(true){
 
 
 
-        sockaddr_in clientAddr;
-        unsigned int len = sizeof(clientAddr); 
-        int clientSocket = accept(serverSocket, (sockaddr*)&clientAddr, &len);
+//         sockaddr_in clientAddr;
+//         unsigned int len = sizeof(clientAddr); 
+//         int clientSocket = accept(serverSocket, (sockaddr*)&clientAddr, &len);
         
-        if (clientSocket < 0) { 
-        printf("server accept failed...\n"); 
-        exit(0); 
-        } 
-        else{
-            // printAddr(clientAddr);
-            cout << "will create new thread\n";
-            thread newThread(threadHandler,clientSocket);
-            newThread.join();
-        }
-    }
-}
+//         if (clientSocket < 0) { 
+//         printf("server accept failed...\n"); 
+//         exit(0); 
+//         } 
+//         else{
+//             // printAddr(clientAddr);
+//             cout << "will create new thread\n";
+//             thread newThread(threadHandler,clientSocket);
+//             newThread.join();
+//         }
+//     }
+// }
 
 /// @brief A blocking loop that keeps accepting new connections and create a thread for each new connection
 void tcpServer::acceptLoop(){
+    
     while(true){
         mtx.lock();
         bool curExitFlag = exitFlag;
@@ -148,7 +149,7 @@ bool readStringAndCheckForExit() {
     std::string input;
     while (true) {
         std::getline(std::cin, input);
-        // cout << "input is " << input <<endl;
+        cout << "input is " << input <<endl;
         mtx.lock();
         exitFlag = (input == "exit");
         mtx.unlock();
@@ -160,10 +161,11 @@ bool readStringAndCheckForExit() {
 }
 
 /// @brief creates a new thread that reads the cin and checks if exit is written, if so it calls the class deconstructor
-void tcpServer::readCin(){
+thread tcpServer::readCin(){
     
     std::thread myThread(readStringAndCheckForExit);
-    myThread.detach();
+    myThread.join();
     this->~tcpServer();
+    return myThread;
 
 }

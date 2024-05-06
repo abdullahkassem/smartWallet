@@ -37,9 +37,9 @@ private:
 public:
     // tcpServer(/* args */);
     tcpServer(int port);
-    void acceptLoop(const function<void(int)> threadHandler);
+    // void acceptLoop(const function<void(int)> threadHandler);
     void acceptLoop();
-    void readCin();
+    thread readCin();
     ~tcpServer();
     
 
