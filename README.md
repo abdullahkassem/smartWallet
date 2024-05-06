@@ -8,3 +8,5 @@ The best option to store the data on the server, in this case would be a SQL dat
 
 To transfer money from one account to the other (transactions), you need to know their accountID.
 
+## external libriries
+- ceral for serializing and deserializing objects
