@@ -93,11 +93,12 @@ bool server::login(string usrName, string Password)
     }
     
     if(!nameExists){
-        // cout << "User Name does not exist\n";
+        cout << "User Name does not exist\n";
         return false;
     }
 
     if(Password != curUser.password){
+        cout << "correct pass is " << curUser.password << "given is " << Password <<endl;
         // cout << "passwords mismatch\n";
         return false;
     }

@@ -1,0 +1,11 @@
+{
+    "value0": {
+        "TransactionID": "65fbfe42-e3de-4e82-9083-b3d62bfbd6ed",
+        "TransType": "withdraw",
+        "timeStamp": "Tue May  7 01:39:08 2024",
+        "ammount": -50.0,
+        "src_acc": "38acf538-272d-4359-ba6c-7732bd863b9a",
+        "dest_acc": "",
+        "details": "food"
+    }
+}

@@ -1,16 +1,18 @@
 {
     "value0": {
-        "value0": "abdullahk",
-        "value1": "dummy",
-        "value2": "",
-        "value3": "",
-        "value4": "",
-        "value5": "",
-        "value6": "",
-        "value7": "",
-        "value8": [
-            "ebd8d08d-df62-463c-b882-75f34c1126a4",
-            "de9e1833-685c-4761-ab24-ab2cb4da9635"
+        "userName": "abdullahk",
+        "password": "MyPass",
+        "fullName": "",
+        "nationalID": "",
+        "nationality": "",
+        "martialStatus": "",
+        "phoneNo": "",
+        "DOB": "",
+        "accounts": [
+            "38acf538-272d-4359-ba6c-7732bd863b9a",
+            "0e252728-50ca-4c93-9283-d1a6b0dfc27c",
+            "fb0d9f48-350a-499b-b788-acea60b1d153",
+            "18e7464c-bf46-4781-93d6-3a2237c595e1"
         ]
     }
 }

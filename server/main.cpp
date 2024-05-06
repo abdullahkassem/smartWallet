@@ -8,25 +8,31 @@
 
 using namespace std;
 
+
+
 int main(){
-    cout << "Hello world\n";
-    database* db = database::getInstance();
+    // cout << "Hello world\n";
 
+    int portNum = 8081;
     server myserv = server();
-    // myserv.createUser("abdullahk","dummy");
 
-    // myserv.login("abdullahk","dummy");
-    // myserv.createAccount("abdullahk","main","debit",0.0);
-    // myserv.createAccount("abdullahk","secondary","credit",200.0);
-    // string firstAcc = myserv.getUserAccounts("abdullahk")[0];
-    // cout << firstAcc << endl;
-    // myserv.Deposit(firstAcc,100.0,"salary");
-    // myserv.Withdraw(firstAcc,50.0,"food");
 
-    tcpServer serv(8083);
+   // to populate database, for demo purpose
+    if(false){
+        myserv.createUser("abdullahk","MyPass");
+        myserv.createAccount("abdullahk","main","debit",0.0);
+        myserv.createAccount("abdullahk","secondary","credit",0);
+        string firstAcc = myserv.getUserAccounts("abdullahk")[0];
+        myserv.Deposit(firstAcc,1000.0,"salary");
+        myserv.Withdraw(firstAcc,50.0,"food");
+    }
+    
+
+    tcpServer serv(&myserv,portNum);
+    cout << "server started at http://localhost:"<<portNum<<endl;
+
     serv.acceptLoop();
 
-    serv.~tcpServer();
 
 
     return 0;

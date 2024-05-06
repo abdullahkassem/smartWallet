@@ -1,0 +1,11 @@
+{
+    "value0": {
+        "TransactionID": "ff6f8442-1929-4560-a3ca-82fa72d10571",
+        "TransType": "deposit",
+        "timeStamp": "Tue May  7 01:39:08 2024",
+        "ammount": 1000.0,
+        "src_acc": "38acf538-272d-4359-ba6c-7732bd863b9a",
+        "dest_acc": "",
+        "details": "salary"
+    }
+}

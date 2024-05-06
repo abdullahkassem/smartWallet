@@ -1,0 +1,15 @@
+{
+    "value0": {
+        "AccountID": "38acf538-272d-4359-ba6c-7732bd863b9a",
+        "accountName": "main",
+        "ownerID": "abdullahk",
+        "balance": 1900.0,
+        "accType": "debit",
+        "listOfTrans": [
+            "e8da7a82-6119-49b6-98dc-f887b08d2c42",
+            "fa56df72-dbcc-4d51-a69f-fb4f83533450",
+            "ff6f8442-1929-4560-a3ca-82fa72d10571",
+            "65fbfe42-e3de-4e82-9083-b3d62bfbd6ed"
+        ]
+    }
+}

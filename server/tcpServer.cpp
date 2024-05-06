@@ -5,8 +5,10 @@ bool exitFlag = false;
 
 /// @brief constructor that get creates a local server socket and mark it for listening
 /// @param port 
-tcpServer::tcpServer(int port):portNum(port)
+tcpServer::tcpServer(server* myserv,int port):portNum(port),myserv(myserv)
 {
+    
+
     serverSocket = socket(AF_INET, SOCK_STREAM, 0); 
     if (serverSocket == -1) { 
         printf("socket creation failed...\n"); 
@@ -40,28 +42,6 @@ tcpServer::tcpServer(int port):portNum(port)
         printf("Server listening..\n"); 
 }
 
-/// @brief A blocking loop that keeps accesspting new connections and create a thread for each new connection
-// void tcpServer::acceptLoop(const function<void(int)> threadHandler){
-//     while(true){
-
-
-
-//         sockaddr_in clientAddr;
-//         unsigned int len = sizeof(clientAddr); 
-//         int clientSocket = accept(serverSocket, (sockaddr*)&clientAddr, &len);
-        
-//         if (clientSocket < 0) { 
-//         printf("server accept failed...\n"); 
-//         exit(0); 
-//         } 
-//         else{
-//             // printAddr(clientAddr);
-//             cout << "will create new thread\n";
-//             thread newThread(threadHandler,clientSocket);
-//             newThread.join();
-//         }
-//     }
-// }
 
 /// @brief A blocking loop that keeps accepting new connections and create a thread for each new connection
 void tcpServer::acceptLoop(){
@@ -114,8 +94,103 @@ string tcpServer::buildResponse(string body)
         return ss.str();
 }
 
+std::string get_first_line(const std::string& inputString) {
+  // Find the position of the newline character
+  size_t newlinePos = inputString.find('\n');
+
+  // If newline is found, return everything before it (excluding the newline)
+  if (newlinePos != std::string::npos) {
+    return inputString.substr(0, newlinePos);
+  }
+
+  // If no newline is found, return the entire string
+  return inputString;
+}
+
+vector<query_kv_t> tcpServer::parseQuery(string q){
+    string urlStr = "http://www.google.co.kr:8080/testurl/depth1/depth2/depth3" + q.substr(4);
+    EdUrlParser* url = EdUrlParser::parseUrl(urlStr);
+    
+    // parse query string as key-value hash map
+	vector<query_kv_t> kvs;
+	int num = EdUrlParser::parseKeyValueList(&kvs, url->query);
+	
+    return kvs;
+
+}
+
+/*  List of API we need to create
+
+    // myserv.createUser("abdo","p@ss");
+    // myserv.login("abdullahk","dummy");
+    // myserv.createAccount("abdullahk","main","debit",0.0);
+    // myserv.createAccount("abdullahk","secondary","credit",200.0);
+    // string firstAcc = myserv.getUserAccounts("abdullahk")[0];
+    // cout << firstAcc << endl;
+    // myserv.Deposit(firstAcc,100.0,"salary");
+    // myserv.Withdraw(firstAcc,50.0,"food");
+*/
+
+void tcpServer::handleIncRequest(int clientSocket,char* request){
+    /* Example:     GET /?funcType=login&userName=asdsd&password=asdasd HTTP/1.1    */
+    string reqStr(request);
+    string firstHeader = get_first_line(reqStr);
+
+    if(firstHeader.size() == 0)
+        return;
+    
+    std::size_t pos = firstHeader.find("HTTP/1.1");
+
+    if (pos != std::string::npos) {
+        firstHeader.erase(pos-1); // Erase everything from the position of "HTML"
+    }
+    // cout << "firstHeader is " <<firstHeader<<endl;
+    
+
+    vector<query_kv_t> queriesTemp = parseQuery(firstHeader);
+    unordered_map<string,string> map;
+    for(int i=0;i<queriesTemp.size();i++) {
+		map[queriesTemp[i].key] = queriesTemp[i].val;        
+	}
+    string reqType = map["funcType"];
+
+    string response="temp";
+
+    if(reqType == "login"){
+        bool logged = myserv->login(map["userName"],map["password"]);
+        if(logged){
+            response = "login true";
+        }else{
+            response = "login false";
+        }
+
+    }else if(reqType ==""){
+
+    }else if(reqType ==""){
+        
+    }else if(reqType ==""){
+        
+    }else if(reqType ==""){
+        
+    }else if(reqType ==""){
+        
+    }else if(reqType ==""){
+        
+    }else{
+         
+        response = "Default Response";
+    }
+    string FinalResponse = buildResponse(response);
+
+
+    int bytes_sent = send(clientSocket, FinalResponse.c_str(), FinalResponse.length(), 0);
+        if(bytes_sent == -1)
+            cerr << "Sending failed\n";
+
+}
+
 void tcpServer::defaultThreadHandler(int clientSocket){
-    cout << "THREAD CREATED\n";
+    // cout << "THREAD CREATED\n";
     while(true){
 
         mtx.lock();
@@ -130,15 +205,13 @@ void tcpServer::defaultThreadHandler(int clientSocket){
         char buff[BUFFER_SIZE]; 
         bzero(buff, BUFFER_SIZE); 
         recv(clientSocket, buff, sizeof(buff),0);
+        
         // printf("Recieved: %s\n", buff); 
 
-        string response = buildResponse("hello world");
+        // we need to handle request here!!
+        handleIncRequest(clientSocket,buff);
 
-        // cout << "response will be: " << response <<endl;
-
-        int bytes_sent = send(clientSocket, response.c_str(), response.length(), 0);
-        if(bytes_sent == -1)
-            cerr << "Sending failed\n";
+        
 
     }
 }

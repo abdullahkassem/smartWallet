@@ -24,12 +24,12 @@ private:
     
     template <class Archive>
     void serialize(Archive& Data) {
-        Data( AccountID,
-                accountName,
-                ownerID,
-                balance,
-                accType,
-                listOfTrans );
+        Data( CEREAL_NVP(AccountID),
+                CEREAL_NVP(accountName),
+                CEREAL_NVP(ownerID),
+                CEREAL_NVP(balance),
+                CEREAL_NVP(accType),
+                CEREAL_NVP(listOfTrans) );
     }
 
     account(/* args */);

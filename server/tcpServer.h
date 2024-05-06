@@ -18,8 +18,13 @@
 #include <sstream>
 #include <functional>
 #include <mutex>
+#include <regex>
 
 #include <iostream>
+#include "EdUrlParser.h"
+
+#include "server.h"
+
 using namespace std;
 
 #define BUFFER_SIZE 4096
@@ -31,19 +36,21 @@ private:
     int serverSocket;
     struct sockaddr_in servaddr; 
     void defaultThreadHandler(int x);
-
-    
+    void handleIncRequest(int clientSocket,char *request);
+    database* db;
+    server* myserv;
 
 public:
     // tcpServer(/* args */);
-    tcpServer(int port);
+    tcpServer(server* myserv,int port);
     // void acceptLoop(const function<void(int)> threadHandler);
     void acceptLoop();
     thread readCin();
     ~tcpServer();
-    
+    vector<query_kv_t> parseQuery(string q);
 
     string buildResponse(string body);
+
     
 };
 

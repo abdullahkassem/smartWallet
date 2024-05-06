@@ -26,13 +26,13 @@ private:
 
     template <class Archive>
     void serialize(Archive& Data) {
-        Data(TransactionID
-                ,TransType
-                ,timeStamp
-                ,ammount
-                ,src_acc
-                ,dest_acc
-                ,details );
+        Data(CEREAL_NVP(TransactionID)
+                ,CEREAL_NVP(TransType)
+                ,CEREAL_NVP(timeStamp)
+                ,CEREAL_NVP(ammount)
+                ,CEREAL_NVP(src_acc)
+                ,CEREAL_NVP(dest_acc)
+                ,CEREAL_NVP(details) );
     }
 
     transactions();

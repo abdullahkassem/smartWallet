@@ -31,7 +31,7 @@ private:
     
     template <class Archive>
     void serialize(Archive& Data) {
-        Data(userName, password, fullName, nationalID, nationality, martialStatus, phoneNo, DOB,accounts);
+        Data(CEREAL_NVP(userName), CEREAL_NVP(password), CEREAL_NVP(fullName),CEREAL_NVP( nationalID), CEREAL_NVP(nationality), CEREAL_NVP(martialStatus), CEREAL_NVP(phoneNo),CEREAL_NVP( DOB),CEREAL_NVP(accounts) );
     }
 
     user(){};
