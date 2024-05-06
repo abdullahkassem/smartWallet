@@ -17,6 +17,7 @@
 #include <pthread.h>
 #include <sstream>
 #include <functional>
+#include <mutex>
 
 #include <iostream>
 using namespace std;
@@ -29,14 +30,21 @@ private:
     int portNum;
     int serverSocket;
     struct sockaddr_in servaddr; 
+    void defaultThreadHandler(int x);
+
+    
+
 public:
     // tcpServer(/* args */);
     tcpServer(int port);
-    void accecptLoop(const function<void(int)> threadHandler);
+    void acceptLoop(const function<void(int)> threadHandler);
+    void acceptLoop();
+    void readCin();
     ~tcpServer();
+    
 
     string buildResponse(string body);
+    
 };
-
 
 #endif

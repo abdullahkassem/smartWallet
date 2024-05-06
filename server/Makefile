@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS =  -I/home/abdullah/repos/smartWallet/include  -lpthread
+CXXFLAGS =  -I/home/abdullah/repos/smartWallet/include  
 
 # Source code files
 SRCS = $(wildcard *.cpp) $(wildcard database/*.cpp) 
@@ -14,7 +14,7 @@ EXEC = myprogram
 all: $(EXEC)
 
 $(EXEC): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(EXEC)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(EXEC) -lpthread
 
 
 # Target: Compile source files to object files

@@ -4,6 +4,7 @@
 #include "./database/database.h"
 #include "user.h"
 #include "server.h"
+#include "tcpServer.h"
 
 using namespace std;
 
@@ -21,6 +22,13 @@ int main(){
     // cout << firstAcc << endl;
     // myserv.Deposit(firstAcc,100.0,"salary");
     // myserv.Withdraw(firstAcc,50.0,"food");
+
+    tcpServer serv(8080);
+    serv.readCin();
+    cout << "after read\n";
+    serv.acceptLoop();
+
+    cout << "server finished\n";
 
     return 0;
 }
